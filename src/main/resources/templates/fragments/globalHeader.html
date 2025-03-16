@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="header">
+	<input type="hidden" id="context" th:value="@{/}" />
+	<div>
+		<table th:if="${null != errors || null != infos}" class="blockErreurInfo">
+					<!-- Block erreur --> 
+					<tr th:if="${null != errors}">
+						<td style="color:darkred" >Errors :</td>
+					</tr> 
+					<tr th:if="${null != errors}">
+						<td>
+							<ul>
+								<li style="color:darkred" th:each="error : ${errors}" th:text="${error}" ></li>
+							</ul>
+						</td>
+					</tr>
+					
+					<!-- Block info --> 
+					<tr th:if="${null != infos}">
+						<td style="color:darkblue">Informations :</td>
+					</tr> 
+					<tr th:if="${null != infos}">
+						<td>
+							<ul>
+								<li style="color:darkblue" th:each="info : ${infos}" th:text="${info}" ></li>
+							</ul>
+						</td>
+					</tr>
+		</table>
+	</div>
+	<div>
+		<table>
+			<tr>
+				<td> <br/></td>
+			</tr>
+		</table>
+	</div>
+</div>

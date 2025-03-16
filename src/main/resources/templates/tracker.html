@@ -1,0 +1,73 @@
+<html xmlns:th="http://www.thymeleaf.org" class="imageBack">
+
+<!-- Insert <head></head> -->
+<div th:replace="fragments/globalMetaHead :: meta"></div>
+
+<nav class="navMenu">
+	<table>
+		<tr>
+			<td><img th:src="@{/img/httpTracker2.png}" style="opacity:90%" width="75" height="75" /></td>
+			<td><h1 style="margin-top:20px; opacity:90%; font-size:1rem; margin-left:-18px;font-family:Verdana, sans-serif;font-style:italic">HTML tracker APP</h1></td>
+		</tr>
+	</table>
+	<ul class="menu">
+		<li class="menuLine" style="font-style: italic;"><a class="link" th:href="@{/}">Home</a></li>
+		<li class="menuLine" style="font-style: italic;"><a class="link" th:href="@{/managetracker}">Manage Tracker</a></li>
+	</ul>
+</nav>
+
+<!-- Insert header -->
+<div th:replace="fragments/globalHeader :: header"></div>
+
+
+<!-- Content -->
+<div class="card">
+	<form>
+		<h3>Step 1 : URL checking</h3>
+		<label>Url to check :</label>
+		<input class="saisieInput" id="urlString" placeholder="Enter a valid url" name="urlString" type="url" size="150" th:value="${urlString}" required/>
+		<input type="button" class="actionButton" onclick="getHTMLCode()" value="Show HTML code" />
+	</form>
+	<textarea style="display:none" id="htmlResponse" class="lockedText" th:text=${htmlResponse} rows="35" readonly></textarea>
+	<div id="addContentBlock" class="cardBlock" style="display:none">
+		<label style="font-size: 28px;vertical-align:middle;">&#x27A1;</label><label>Select a fragment of html code to track then click add to tracker</label>
+		<input class="saisieInput actionButton" onclick="addCodeToTracker()" type="button" value="Add to tracker" />
+	</div>
+</div>
+<div class="card">
+	<form th:action="@{/addtracker}" method="post">
+		<h3>Step 2 : Add tracker</h3>
+		<div class="cardBlock">
+			<label>Tracker name :</label>
+			<input class="saisieInput" name="name" type="text" placeholder="Enter a name for your tracker" size="150" th:value="${name}" required />
+		</div>
+		<div class="cardBlock">
+			<label>Url to check :</label>
+			<input class="saisieInput" id="urlToTrack" name="urlToTrack" type="url" size="200" placeholder="Please follow step1 to populate that field" th:value="${urlToTrack}" readonly required />
+		</div>
+		<div class="cardBlock">
+			<label>HTML content to track :</label>
+			<textarea class="saisieText" id="textToTrack" name="textToTrack" rows="15" placeholder="Please follow step1 to populate that field" th:text="${textToTrack}" readonly required></textarea>
+		</div>
+		<div class="cardBlock">
+			<label>Tracking frequency :</label>
+			<select name="trackingFrequency">
+				<option th:each ="fequency : ${frequencyList}" th:text="${fequency}" th:selected="${fequency==selectedFrequency}"></option>
+			</select>
+		</div>
+		<div class="cardBlock">
+			<label>Email :</label>
+			<input class="saisieInput" name="email" type="email" size="150" placeholder="Enter a valid email address" th:value="${email}" required/>
+		</div>
+		<div class="cardBlock">
+			<label>Tracker password :</label>
+			<input class="saisieInput" title="Password must contain at least 6 characters, including UPPER/lowercase and numbers" name="password" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" placeholder="Enter a valid password" onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '');" size="100" required/>
+		</div>
+		<div class="cardBlock">
+			<input type="submit" class="actionButton" value="Add tracker" />
+		</div>
+	</form>
+</div>
+
+<!-- Insert footer -->
+<div th:replace="fragments/globalFooter :: footer"></div>
