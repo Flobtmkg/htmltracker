@@ -128,6 +128,12 @@ public class MailProperties {
 	public void setEnable(boolean enable) {
 		this.enable = enable;
 	}
+
+
+	@Override
+	public String toString() {
+		return "MailProperties [enable=" + enable + ", host=" + host + ", username=" + username + ", port=" + port + ", from=" + from + ", tls=" + tls + ", auth=" + auth + "]";
+	}
 	
 
 }

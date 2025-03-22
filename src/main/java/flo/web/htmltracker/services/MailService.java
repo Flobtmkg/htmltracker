@@ -9,12 +9,12 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import flo.web.htmltracker.H2ConsoleConfig;
 import flo.web.htmltracker.MailProperties;
 import flo.web.htmltracker.Entities.Tracker;
 import flo.web.htmltracker.authenticators.GmailAuthenticator;
@@ -105,7 +105,8 @@ public class MailService {
 	
 	
 	
-	private void sendEmail(Message message) {	
+	private void sendEmail(Message message) {
+		log.info(mailProperties.toString());
 	    try {
 	    	// if not enable, we ignore without error
 	    	if(mailProperties.isEnable()) {
@@ -113,7 +114,7 @@ public class MailService {
 	    	}
 	    } catch (MessagingException e) {
 	    	// TODO: just log? disable tracker?
-	    	log.error(e.getMessage());
+	    	log.error(ExceptionUtils.getStackTrace(e));
 	    }
 	  }
 }

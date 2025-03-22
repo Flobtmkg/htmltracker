@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -81,8 +82,15 @@ public class TrackerService {
 	
 	public String findHTMLCodeFromURL(Url url) throws Exception {
 		
+		HttpUriRequest request = new HttpGet(url.getUrlString());
+		request.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0");
+		request.setHeader("Sec-Fetch-Mode", "navigate");
+		request.setHeader("Sec-Fetch-Dest", "document");
+		request.setHeader("Referer", "https://www.google.com/");
+		request.setHeader("Sec-Fetch-User", "?1");
+		
 		try(CloseableHttpClient httpClient = HttpClients.createDefault();
-				CloseableHttpResponse response = httpClient.execute(new HttpGet(url.getUrlString()))){
+				CloseableHttpResponse response = httpClient.execute(request)){
 						
 				CharsetDetector detector = new CharsetDetector();
 				byte[] responseBytes = EntityUtils.toByteArray(response.getEntity());
