@@ -58,7 +58,7 @@ public class TrackerJobs {
 		if(null != trackers && trackers.size() > 0) {
 			// Get the list of trackers which target has changed 
 			List<Tracker> trackersNOK = trackers.parallelStream()
-					.map(tracker -> trackerService.testIfTrackerIsNOK(tracker, ErrorMode.ERROR_IS_NOK))
+					.map(tracker -> trackerService.testIfTrackerIsNOK(tracker, ErrorMode.ERROR_IS_NULL))
 					.filter(tracker -> tracker != null)
 					.collect(Collectors.toList());
 			
