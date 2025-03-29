@@ -3,6 +3,8 @@ package flo.web.htmltracker.jobs;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import flo.web.htmltracker.services.TrackerService;
 
 @Service
 public class TrackerJobs {
+	
+	private static Logger log = LoggerFactory.getLogger(TrackerJobs.class);
 	
 	@Autowired
 	private TrackerRepository trackerRepository;
@@ -52,6 +56,9 @@ public class TrackerJobs {
 	
 	
 	private void mainTrackerJob(TrackingFrequency frequency) {
+		
+		log.info("Start tracker job triggered by the frequency : " + frequency.getFrequencyValue());
+		
 		// find trackers from database
 		List<Tracker> trackers = trackerRepository.findAllEnableTrackerByTrackingFrequency(frequency.getFrequencyValue());
 		

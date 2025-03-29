@@ -2,6 +2,7 @@ package flo.web.htmltracker.services;
 
 import java.nio.charset.StandardCharsets;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -9,6 +10,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.tika.parser.txt.CharsetDetector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,8 @@ import flo.web.htmltracker.repositories.TrackerRepository;
 
 @Service
 public class TrackerService {
+	
+	private static Logger log = LoggerFactory.getLogger(TrackerService.class);
 	
 	@Autowired
 	private TrackerRepository trackerRepository;
@@ -63,6 +68,7 @@ public class TrackerService {
 		try {
 			responseString = findHTMLCodeFromURL(tracker.getUrlToTrack());
 		} catch (Exception e) {
+			log.warn(ExceptionUtils.getStackTrace(e));
 			if(ErrorMode.ERROR_IS_NOK == errorMode)
 				// if tracker was added, it means that originally there was no error
 				// if then an error get triggered, we decide that it means that the content has changed
